@@ -41,10 +41,33 @@ public class Main {
     linkedlist.next = newNode;
     }
 
-    public void insertspecific(Node list,int info){
+    public void insertspecific(int position,int info){
     Node newNode = new Node(info);
-    newNode.next = list.next;
-    list.next = newNode;
+        newNode.info = info;
+        newNode.next = null;
+
+        if(position < 1) {
+            System.out.print("\nposition should be >= 1.");
+        } else if (position == 1) {
+            newNode.next = head;
+            head = newNode;
+        } else {
+
+            Node temp = new Node(info);
+            temp = head;
+            for(int i = 1; i < position-1; i++) {
+                if(temp != null) {
+                    temp = temp.next;
+                }
+            }
+
+            if(temp != null) {
+                newNode.next = temp.next;
+                temp.next = newNode;
+            } else {
+                System.out.print("\nThe previous node is null.");
+            }
+        }
     }
 
     public void delete1st(){
@@ -56,23 +79,29 @@ public class Main {
         linkedlist = linkedlist.next;
     linkedlist.next = null;
     }
-    public void deletespecific(int deletespecific){
-    Node temp = head;
-    Node prev = null;
-    if(temp !=null && temp.info == deletespecific){
-        head = temp.next;
-        return;
-    }
-    // finding the key to be deleted
-
-        while(temp !=null && temp.info !=deletespecific){
-            prev = temp;
-            temp = temp.next;
+    public void deletespecific(int position){
+        if(position < 1) {
+            System.out.print("\nposition should be >= 1.");
+        } else if (position == 1 && head != null) {
+            Node nodeToDelete = head;
+            head = head.next;
+            nodeToDelete = null;
+        } else {
+            Node temp = new Node(position);
+            temp = head;
+            for(int i = 1; i < position-1; i++) {
+                if(temp != null) {
+                    temp = temp.next;
+                }
+            }
+            if(temp != null && temp.next != null) {
+                Node nodeToDelete = temp.next;
+                temp.next = temp.next.next;
+                nodeToDelete = null;
+            } else {
+                System.out.print("\nThe node is already null.");
+            }
         }
-        // if element is not present
-        if(temp == null) return;
-        //removing the node
-        prev.next = temp.next;
     }
     //end of program
     //begining of menu driven program
@@ -118,7 +147,9 @@ public class Main {
             } else if (choose == 3) {
                 System.out.print("Enter element to insert at a specific position: ");
                 int specific = input.nextInt();
-                o.insertspecific(head.next,specific);
+                System.out.print("Enter the specific position: ");
+                int position = input.nextInt();
+                o.insertspecific(position,specific);
                 o.display();
             } else if (choose == 4) {
                 o.delete1st();
@@ -129,9 +160,9 @@ public class Main {
             } else if (choose == 6) {
                 o.display();
                 System.out.println();
-                System.out.print("From the above list, enter an element to delete: ");
-                int info = input.nextInt();
-                o.deletespecific(info);
+                System.out.print("Enter the position to delete: ");
+                int position = input.nextInt();
+                o.deletespecific(position);
                 o.display();
             } else if (choose == 7) {
                 o.display();
