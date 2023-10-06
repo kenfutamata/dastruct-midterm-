@@ -28,6 +28,7 @@ while(size !=null){
 i++; 
 size = size.next; 
 }
+System.out.print("The size of the list is "+i);
 return i; 
 }
 
