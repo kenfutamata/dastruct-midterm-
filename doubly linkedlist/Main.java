@@ -84,13 +84,29 @@ public void search(int search){
 
 
 // 5.RETRIEVE THE FIRST ELEMENT OF THE LIST
-public void retrieve1st(){
+public int retrieve1st(){
+    if (head == null) {
+        System.out.println("List is empty");
+        return -1; // Return a default value indicating an empty list
+    }
+
+    return head.info;
 
 }
 
     // 6. RETRIEVE THE LAST ELEMENT OF THE LIST
-    public void retrievelast(){
+    public int retrievelast(){
+        if (head == null) {
+            System.out.println("List is empty");
+            return -1; // Return a default value indicating an empty list
+        }
 
+        Node current = head;
+        while (current.next != null) {
+            current = current.next;
+        }
+
+        return current.info;
     }
 
 
@@ -112,7 +128,31 @@ public void retrieve1st(){
 
 //  8. DELETE AN ITEM FROM THE LIST
     public void delete(int delete){
+        if (head == null) {
+            System.out.println("List is empty");
+            return;
+        }
 
+        Node current = head;
+        while (current != null) {
+            if (current.info == delete) {
+                if (current.prev != null) {
+                    current.prev.next = current.next;
+                } else {
+                    head = current.next;
+                }
+
+                if (current.next != null) {
+                    current.next.prev = current.prev;
+                }
+
+                System.out.println("Node with value " + delete + " deleted from the list");
+                return;
+            }
+            current = current.next;
+        }
+
+        System.out.println("Node with value " + delete + " not found in the list");
     }
 
 public void menu() {
@@ -157,11 +197,15 @@ Scanner input = new Scanner(System.in);
     }
 
     else if(choose == 5){
-        j1.retrieve1st();
+        int firstElement = j1.retrieve1st();
+        System.out.println("First element: " + firstElement);
+
     }
 
     else if(choose == 6){
-        j1.retrievelast();
+        int lastElement = j1.retrievelast();
+        System.out.println("Last element: " + lastElement);
+
     }
 
     else if(choose == 7){
@@ -177,6 +221,7 @@ Scanner input = new Scanner(System.in);
         System.out.print("From the above list (Forward position), enter a node to delete: ");
         int delete = input.nextInt();
         j1.delete(delete);
+        j1.display();
     }
 
 return head;
